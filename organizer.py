@@ -33,37 +33,7 @@ class OrganizerSkill(BaseSkill):
             confirm_text = f"He entendido: recordatorio para {parsed_data['description']} el día {parsed_data['date']} {feedback_hora}. ¿Es correcto?"
             self.speak(confirm_text)
 
-    def crear_alarma_voz(self, command, response, **kwargs):
-        parsed_data = parse_alarm_from_text(command)
-    
-        if parsed_data:
-            self.core.pending_alarm_data = parsed_data
-            self.core.waiting_for_alarm_confirmation = True
-    
-            hour, minute = parsed_data['time']
-            days = parsed_data['days']
-            
-            days_str_map = {0: "Lunes", 1: "Martes", 2: "Miércoles", 3: "Jueves", 4: "Viernes", 5: "Sábado", 6: "Domingo"}
-            if len(days) == 7 or not days: 
-                days_text = "todos los días"
-            else:
-                days_text = "los " + ", ".join([days_str_map[d] for d in sorted(days)])
-            
-            confirm_text = f"Entendido. Voy a programar una alarma para las {hour:02d}:{minute:02d} {days_text}. ¿Es correcto?"
-            self.speak(confirm_text)
-        else:
-            self.speak("No he podido entender la hora de la alarma.")
-
-    def consultar_recordatorios_dia(self, command, response, **kwargs):
-        # Placeholder implementation
-        self.speak("Aquí tienes tus recordatorios (simulado).")
-
-    def consultar_alarmas(self, command, response, **kwargs):
-        alarms = self.core.alarm_manager.get_active_alarms()
-        if alarms:
-            self.speak(f"Tienes {len(alarms)} alarmas activas.")
-        else:
-            self.speak("No tienes alarmas activas.")
+    # Alarm methods moved to 'alarms' plugin
 
     def iniciar_dialogo_temporizador(self, command, response, **kwargs):
         self.core.waiting_for_timer_duration = True
